@@ -1,12 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rudraksh | Resume</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rudraksh Keshwan | AI & ML Developer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Rudraksh</h1>
-  <p>This is my resume website.</p>
+    <canvas id="ambient-canvas"></canvas>
+
+    <header class="navbar">
+        <nav class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certificates">Certificates</a></li>
+                <li><a href="#more">More</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="hero" id="home">
+        <div class="hero-container">
+            
+            <div class="hero-visual reveal-scale">
+                <div class="image-ring"></div>
+                <div class="image-wrapper">
+                    <img src="assets/center-star.jpeg" alt="Rudraksh Keshwan">
+                </div>
+            </div>
+
+            <div class="hero-content">
+                <div class="reveal-up delay-1">
+                    <span class="role-badge">AI & ML Student | Python & Django Developer</span>
+                </div>
+                
+                <h1 class="name-title reveal-up delay-2">Rudraksh Keshwan</h1>
+                <h2 class="education-subtitle reveal-up delay-3">B.Tech, 2nd Year, Artificial Intelligence and Machine Learning</h2>
+                
+                <p class="about-text reveal-up delay-4">
+                    Lets keep it simple and say I like building tools and services which people would actually use .....
+                </p>
+
+                <div class="skills-section reveal-up delay-5">
+                    <h3 class="skills-heading">Core Expertise</h3>
+                    <div class="skills-grid">
+                        <span class="skill-chip">Python</span>
+                        <span class="skill-chip">Django</span>
+                        <span class="skill-chip">C</span>
+                        <span class="skill-chip">HTML</span>
+                        <span class="skill-chip">CSS</span>
+                        <span class="skill-chip">Git</span>
+                        <span class="skill-chip">GitHub</span>
+                        <span class="skill-chip">Full Stack Web Development</span>
+                    </div>
+                </div>
+
+                <div class="action-group reveal-up delay-6">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#certificates" class="btn btn-secondary">Certificates</a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
