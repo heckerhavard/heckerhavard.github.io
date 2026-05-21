@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Lead Form</title>
+    <style>
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            background: #f4f4f9; 
+            display: flex; 
+            justify-content: center; 
+            padding: 2rem; 
+        }
+        form { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 350px; 
+        }
+        h2 { 
+            margin-top: 0; 
+            font-size: 1.5rem; 
+            color: #333; 
+            text-align: center;
+        }
+        .form-group { 
+            margin-bottom: 1.2rem; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 0.4rem; 
+            font-weight: 500; 
+            font-size: 0.9rem; 
+            color: #444; 
+        }
+        .inline-label { 
+            display: inline; 
+            font-weight: normal; 
+            margin-left: 0.3rem; 
+        }
+        input[type="text"], input[type="email"] {
+            width: 100%; 
+            padding: 0.6rem; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            box-sizing: border-box;
+        }
+        .radio-group, .checkbox-group { 
+            margin-top: 0.5rem; 
+            color: #555;
+            font-size: 0.9rem;
+        }
+        button { 
+            width: 100%; 
+            padding: 0.8rem; 
+            background: #0056b3; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            font-size: 1rem; 
+            font-weight: bold;
+            cursor: pointer; 
+            margin-top: 0.5rem; 
+        }
+        button:hover { 
+            background: #004494; 
+        }
+    </style>
+</head>
+<body>
+
+    <form action="https://app.autoli.in/api/intake/leads/w_ZUsUdJAbiPhSZ_79M4F-bCFcY0Nij3HQpE4sc2X4U/" method="POST">
+        <h2>Contact Us</h2>
+        
+        <!-- Text Input -->
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="John Doe">
+        </div>
+
+        <!-- Email Input -->
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="john@example.com">
+        </div>
+
+        <!-- Radio Buttons -->
+        <div class="form-group">
+            <label>Preferred Contact Method</label>
+            <div class="radio-group">
+                <input type="radio" id="contact-email" name="contact_method" value="email" checked>
+                <label for="contact-email" class="inline-label">Email</label>
+                
+                <input type="radio" id="contact-phone" name="contact_method" value="phone" style="margin-left: 1rem;">
+                <label for="contact-phone" class="inline-label">Phone</label>
+            </div>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="form-group checkbox-group">
+            <input type="checkbox" id="newsletter" name="newsletter" value="yes" checked>
+            <label for="newsletter" class="inline-label">Subscribe to newsletter</label>
+        </div>
+
+        <!-- Hidden Input (Useful for Webhooks to track sources) -->
+        <input type="hidden" name="source" value="simple_website_form">
+
+        <!-- Submit Button -->
+        <button type="submit">Submit Details</button>
+    </form>
+
+</body>
+</html>
