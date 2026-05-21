@@ -20,74 +20,40 @@
             width: 100%; 
             max-width: 350px; 
         }
-        h2 { 
-            margin-top: 0; 
-            font-size: 1.5rem; 
-            color: #333; 
-            text-align: center;
-        }
-        .form-group { 
-            margin-bottom: 1.2rem; 
-        }
-        label { 
-            display: block; 
-            margin-bottom: 0.4rem; 
-            font-weight: 500; 
-            font-size: 0.9rem; 
-            color: #444; 
-        }
-        .inline-label { 
-            display: inline; 
-            font-weight: normal; 
-            margin-left: 0.3rem; 
-        }
+        h2 { margin-top: 0; font-size: 1.5rem; color: #333; text-align: center; }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.4rem; font-weight: 500; font-size: 0.9rem; color: #444; }
+        .inline-label { display: inline; font-weight: normal; margin-left: 0.3rem; }
         input[type="text"], input[type="email"] {
-            width: 100%; 
-            padding: 0.6rem; 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
-            box-sizing: border-box;
+            width: 100%; padding: 0.6rem; border: 1px solid #ccc; 
+            border-radius: 4px; box-sizing: border-box;
         }
-        .radio-group, .checkbox-group { 
-            margin-top: 0.5rem; 
-            color: #555;
-            font-size: 0.9rem;
-        }
+        .radio-group, .checkbox-group { margin-top: 0.5rem; color: #555; font-size: 0.9rem; }
         button { 
-            width: 100%; 
-            padding: 0.8rem; 
-            background: #0056b3; 
-            color: white; 
-            border: none; 
-            border-radius: 4px; 
-            font-size: 1rem; 
-            font-weight: bold;
-            cursor: pointer; 
-            margin-top: 0.5rem; 
+            width: 100%; padding: 0.8rem; background: #0056b3; 
+            color: white; border: none; border-radius: 4px; 
+            font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 0.5rem; 
         }
-        button:hover { 
-            background: #004494; 
-        }
+        button:hover { background: #004494; }
+        #statusMessage { margin-top: 1rem; text-align: center; font-weight: bold; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <form action="https://app.autoli.in/api/intake/leads/w_ZUsUdJAbiPhSZ_79M4F-bCFcY0Nij3HQpE4sc2X4U/" method="POST">
+    <!-- Notice the action and method are removed. We handle it in JS now. -->
+    <form id="leadForm">
         <h2>Contact Us</h2>
         
-        <!-- Text Input -->
         <div class="form-group">
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" required placeholder="John Doe">
         </div>
 
-        <!-- Email Input -->
         <div class="form-group">
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required placeholder="john@example.com">
         </div>
 
-        <!-- Radio Buttons -->
         <div class="form-group">
             <label>Preferred Contact Method</label>
             <div class="radio-group">
@@ -99,18 +65,72 @@
             </div>
         </div>
 
-        <!-- Checkbox -->
         <div class="form-group checkbox-group">
             <input type="checkbox" id="newsletter" name="newsletter" value="yes" checked>
             <label for="newsletter" class="inline-label">Subscribe to newsletter</label>
         </div>
 
-        <!-- Hidden Input (Useful for Webhooks to track sources) -->
         <input type="hidden" name="source" value="simple_website_form">
 
-        <!-- Submit Button -->
-        <button type="submit">Submit Details</button>
+        <button type="submit" id="submitBtn">Submit Details</button>
+        
+        <!-- Area to show success/error messages -->
+        <div id="statusMessage"></div>
     </form>
 
+    <script>
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop the standard form submission
+
+            const form = this;
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Convert form fields into a JavaScript object
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Handle checkbox (unchecked checkboxes aren't included in FormData normally)
+            if(!formData.has('newsletter')) data.newsletter = 'no';
+
+            // UI feedback
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            statusMessage.textContent = '';
+            statusMessage.style.color = 'black';
+
+            // Send data as JSON to the Webhook
+            fetch('https://app.autoli.in/api/intake/leads/w_ZUsUdJAbiPhSZ_79M4F-bCFcY0Nij3HQpE4sc2X4U/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(async (response) => {
+                if (response.ok) {
+                    statusMessage.textContent = 'Success! Your information has been submitted.';
+                    statusMessage.style.color = 'green';
+                    form.reset(); // Clear the form
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error("Server Error:", errorData);
+                    statusMessage.textContent = errorData.detail || 'Error submitting form. Please try again.';
+                    statusMessage.style.color = 'red';
+                }
+            })
+            .catch((error) => {
+                console.error("Network Error:", error);
+                statusMessage.textContent = 'Network error. Check your connection.';
+                statusMessage.style.color = 'red';
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.textContent = 'Submit Details';
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
 </body>
 </html>
